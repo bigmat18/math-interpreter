@@ -4,7 +4,7 @@
 
 
 int main(int argc, char *argv[]){
-    FILE* file = fopen(argv[1], 'r');
+    FILE* file = fopen(argv[1], "r");
     int size = 10, index = 0;
     char* character = malloc(size*sizeof(char));
 

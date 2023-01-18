@@ -5,8 +5,6 @@
 
 union Expression;
 struct Operation;
-enum Operator;
-enum TokenType;
 
 enum Operator {
     ADD,
@@ -47,7 +45,7 @@ typedef struct Token Token;
 
 Token *ConcatArrayToken(Token *tokens, Token *elem);
 char *ConcatArrayChar(char *number, char elem);
-Token *TokenizeRec(char *string[], int position, int stringLenght);
-void Tokenize(char *string[], int lenght);
+Token *TokenizeRec(char *string, int position, int stringLenght);
+void Tokenize(char *string, int lenght);
 
 #endif
