@@ -8,7 +8,7 @@ struct Operation;
 
 enum Operator {
     ADD,
-    SUM,
+    SUB,
     MUL,
     DIV
 };
@@ -22,9 +22,9 @@ enum TokenType {
 };
 
 struct Operation {
+    enum Operator op;
     union Expression* leftExp;
     union Expression* rightExp;
-    enum Operator op;
 };
 
 union Expression {

@@ -1,14 +1,18 @@
+#include "tokenize.h"
+
 #ifndef PARSER_H
 #define PARSER_H
 
 Token* LookHead(Token* tokens);
 
-void Consume(Token* tokens, int size);
+void Consume(Token* tokens, int* size);
 
-void Exp();
+Expression* Exp(Token* tokens, int* size);
 
-void Term();
+Expression* Term(Token* tokens, int* size);
 
-void Factor();
+Expression* Factor(Token* tokens, int* size);
+
+Expression* Parser(Token* tokens, int* size);
 
 #endif
