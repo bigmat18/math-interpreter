@@ -17,8 +17,9 @@ Token* TokenizeRec(char* string, int position, int stringLength, int* size){
     char character = string[position];
     Token *tokens = TokenizeRec(string, position + 1, stringLength, size);
 
+    (*size)++;
     switch (character) {
-        case ' ':                                               return tokens;
+        case ' ':                                               (*size)--; return tokens;
         case '(':                                               return ConcatArrayToken(tokens, &(Token){TKN_LPAR, NULL}, *size);
         case ')':                                               return ConcatArrayToken(tokens, &(Token){TKN_RPAR, NULL}, *size);
         case '+': case '-': case '*': case '/':                 return ConcatArrayToken(tokens, &(Token){TKN_OP, &character}, *size);
@@ -35,20 +36,35 @@ Token* TokenizeRec(char* string, int position, int stringLength, int* size){
         } 
         default: (*size)--;
     }
-    (*size)++;
     return NULL;
 }
 
-void Tokenize(char* string, int lenght) {
+Token* Tokenize(char* string, int lenght) {
     int size = 0;
     Token* tokens= TokenizeRec(string, 0, lenght, &size);
     for(int i=0; i<size; i++){
         switch(tokens[i].token){
-            case TKN_END: printf("TKN_END ");
-            case TKN_LPAR: printf("TKN_LPAR ");
-            case TKN_RPAR: printf("TKN_RPAR ");
-            case TKN_NUM: printf("TKN_NUM ");
-            case TKN_OP: printf("TKN_OP ");
+            case TKN_END: {
+                printf("TKN_END ");
+                break;
+            }
+            case TKN_LPAR: {
+                printf("TKN_LPAR ");
+                break;
+            }
+            case TKN_RPAR: {
+                printf("TKN_RPAR ");
+                break;
+            }
+            case TKN_NUM: {
+                printf("TKN_NUM ");
+                break;
+            }
+            case TKN_OP: {
+                printf("TKN_OP ");
+                break;
+            }
         }
     }
+    return tokens;
 }

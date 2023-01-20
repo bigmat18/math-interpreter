@@ -43,7 +43,7 @@ typedef enum Operator Operator;
 typedef enum TokenType TokenType;
 typedef struct Token Token;
 
-Token *TokenizeRec(char *string, int position, int stringLenght, int* size);
-void Tokenize(char *string, int lenght);
+Token* TokenizeRec(char *string, int position, int stringLenght, int* size);
+Token* Tokenize(char *string, int lenght);
 
 #endif
