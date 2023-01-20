@@ -43,8 +43,6 @@ typedef enum Operator Operator;
 typedef enum TokenType TokenType;
 typedef struct Token Token;
 
-Token *ConcatArrayToken(Token *tokens, Token *elem);
-char *ConcatArrayChar(char *number, char elem);
 Token *TokenizeRec(char *string, int position, int stringLenght);
 void Tokenize(char *string, int lenght);
 
