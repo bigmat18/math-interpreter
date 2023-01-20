@@ -4,15 +4,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-int GetTokenArrayLength(Token* array){
-    return (int)sizeof(array) / (int)sizeof(array[0]);
-}
 
-Token* ConcatArrayToken(Token* tokens, Token* elem){
-    int tokensLength = GetTokenArrayLength(tokens);
-    Token* result = malloc(tokensLength * sizeof(Token));
-    memcpy(result, elem, sizeof(Token));
-    memcpy(result + 1, tokens, tokensLength * sizeof(Token));
+Token* ConcatArrayToken(Token* tokens, Token* elem, int size){
+    Token* result = malloc((size + 1) * sizeof(Token));
+    result[0] = *elem;
+    for(int i = 0; i<size+1; i++) result[i] = tokens[i-1];
     return result;
 }
 
