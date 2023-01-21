@@ -5,7 +5,7 @@
 
 Token* LookHead(Token* tokens);
 
-void Consume(Token* tokens, int* size);
+void Consume(Token** tokens, int* size);
 
 Expression* Exp(Token* tokens, int* size);
 

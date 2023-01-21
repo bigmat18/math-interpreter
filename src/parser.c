@@ -7,11 +7,11 @@ Token* LookHead(Token* tokens){
     return &tokens[0];
 }
 
-void Consume(Token* tokens, int* size){
+void Consume(Token** tokens, int* size){
     (*size)--;
     Token* result = malloc((*size)*sizeof(Token));
-    for(int i=0; i < (*size); i++) result[i] = tokens[i+1];
-    tokens = result;
+    for(int i=0; i < (*size); i++) result[i] = (*tokens)[i+1];
+    *tokens = result;
 }
 
 Expression* Exp(Token* tokens, int* size){
@@ -20,7 +20,7 @@ Expression* Exp(Token* tokens, int* size){
     switch (token->token){
         case TKN_OP:{
             Expression* exp = malloc(sizeof(Expression));
-            Consume(tokens, size);
+            Consume(&tokens, size);
             if(*(char*)(token->value) == '+'){
                 exp->op = &(Operation){ADD, t1, Exp(tokens, size)};
                 return exp;
@@ -41,7 +41,7 @@ Expression* Term(Token *tokens, int *size){
     switch (token->token){
         case TKN_OP:{
             Expression* exp = malloc(sizeof(Expression));
-            Consume(tokens, size);
+            Consume(&tokens, size);
             if(*(char*)(token->value) == '*'){
                 exp->op = &(Operation){MUL, f1, Exp(tokens, size)};
                 return exp;
@@ -61,17 +61,17 @@ Expression* Factor(Token *tokens, int *size){
     switch (token->token){
         case TKN_NUM:{
             Expression* exp = malloc(sizeof(Expression));
-            Consume(tokens, size);
+            Consume(&tokens, size);
             exp->val = *(int*)(token->value);
             return exp;
         }
         case TKN_LPAR: {
-            Consume(tokens, size);
+            Consume(&tokens, size);
             Expression* exp = Exp(tokens, size);
             token = LookHead(tokens);
             switch(token->token){
                 case TKN_RPAR: {
-                    Consume(tokens, size);
+                    Consume(&tokens, size);
                     return exp;
                 }
                 default:
