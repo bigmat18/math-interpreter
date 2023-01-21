@@ -19,17 +19,20 @@ Expression* Exp(Token* tokens, int* size){
     Token* token = LookHead(tokens);
     switch (token->token){
         case TKN_OP:{
-            Expression exp;
+            Expression* exp = malloc(sizeof(Expression));
             Consume(tokens, size);
-            if(token->value == '+'){
-                exp.op = &(Operation){ADD, t1, Exp(tokens, size)};
-                return &exp;
-            }else if(token->value == '-') {
-                exp.op = &(Operation){SUB, t1, Exp(tokens, size)};
-                return &exp;
+            if(*(char*)(token->value) == '+'){
+                exp->op = &(Operation){ADD, t1, Exp(tokens, size)};
+                return exp;
+            }else if(*(char*)(token->value) == '-') {
+                exp->op = &(Operation){SUB, t1, Exp(tokens, size)};
+                return exp;
             }
         }
+        default: 
+            break;
     }
+    return NULL;
 }
 
 Expression* Term(Token *tokens, int *size){
@@ -37,27 +40,30 @@ Expression* Term(Token *tokens, int *size){
     Token* token = LookHead(tokens);
     switch (token->token){
         case TKN_OP:{
-            Expression exp;
+            Expression* exp = malloc(sizeof(Expression));
             Consume(tokens, size);
-            if(token->value == '*'){
-                exp.op = &(Operation){MUL, f1, Exp(tokens, size)};
-                return &exp;
-            }else if(token->value == '/') {
-                exp.op = &(Operation){DIV, f1, Exp(tokens, size)};
-                return &exp;
+            if(*(char*)(token->value) == '*'){
+                exp->op = &(Operation){MUL, f1, Exp(tokens, size)};
+                return exp;
+            }else if(*(char*)(token->value) == '/') {
+                exp->op = &(Operation){DIV, f1, Exp(tokens, size)};
+                return exp;
             }
         }
+        default:
+            break;
     }
+    return NULL;
 }
 
 Expression* Factor(Token *tokens, int *size){
     Token* token = LookHead(tokens);
     switch (token->token){
         case TKN_NUM:{
-            Expression exp;
+            Expression* exp = malloc(sizeof(Expression));
             Consume(tokens, size);
-            exp.val = token->value;
-            return &exp;
+            exp->val = *(int*)(token->value);
+            return exp;
         }
         case TKN_LPAR: {
             Consume(tokens, size);
@@ -68,10 +74,14 @@ Expression* Factor(Token *tokens, int *size){
                     Consume(tokens, size);
                     return exp;
                 }
+                default:
+                    break;
             }
-
         }
+        default:
+            break;
     }
+    return NULL;
 }
 
 Expression* Parser(Token* tokens, int* size){
@@ -80,5 +90,8 @@ Expression* Parser(Token* tokens, int* size){
         case TKN_END: {
             return ast;
         }
+        default:
+            break;
     }
+    return NULL;
 }

@@ -37,6 +37,11 @@ struct Token {
     void* value;
 };
 
+union Value {
+    int number;
+    char operation;
+};
+
 typedef union Expression Expression;
 typedef struct Operation Operation;
 typedef enum Operator Operator;
