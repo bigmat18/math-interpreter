@@ -84,8 +84,11 @@ Expression* Factor(Token *tokens, int *size){
     return NULL;
 }
 
-Expression* Parser(Token* tokens, int* size){
-    Expression* ast = Exp(tokens, size);
+Expression* Parser(char* string, int lenght){
+    int size = 0;
+    Token* tokens = Tokenize(string, lenght, &size);
+    Expression* ast = Exp(tokens, &size);
+    
     switch(LookHead(tokens)->token){
         case TKN_END: {
             return ast;

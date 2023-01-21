@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "tokenize.h"
+#include "parser.h"
 
 
 int main(int argc, char *argv[]){
@@ -31,7 +32,7 @@ int main(int argc, char *argv[]){
     size = index - 1;
     character = realloc(character, size * sizeof(char));
 
-    Tokenize(character, size);
+    Parser(character, size);
     
     return 0;
 }

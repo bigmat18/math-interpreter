@@ -49,6 +49,6 @@ typedef enum TokenType TokenType;
 typedef struct Token Token;
 
 Token* TokenizeRec(char *string, int position, int stringLenght, int* size);
-Token* Tokenize(char *string, int lenght);
+Token *Tokenize(char *string, int lenght, int *size);
 
 #endif

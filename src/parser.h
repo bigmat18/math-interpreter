@@ -13,6 +13,6 @@ Expression* Term(Token* tokens, int* size);
 
 Expression* Factor(Token* tokens, int* size);
 
-Expression* Parser(Token* tokens, int* size);
+Expression* Parser(char* string, int lenght);
 
 #endif
