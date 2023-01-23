@@ -25,14 +25,12 @@ Token* TokenizeRec(char* string, int position, int stringLength, int* size){
         case '+': case '-': case '*': case '/':                 return ConcatArrayToken(tokens, &(Token){TKN_OP, &character}, *size);
         
         case '0': case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9': {
-            int number;
+            char* number = &character;
 
             if(tokens[0].token == TKN_NUM) 
-                number = (int)atoi(ConcatArrayChar((char*)tokens[0].value, character));
-            else 
-                number = (int)atoi(&character);
+                number = ConcatArrayChar(tokens[0].value, character);
 
-            return ConcatArrayToken(tokens, &(Token){TKN_NUM, &number}, *size);
+            return ConcatArrayToken(tokens, &(Token){TKN_NUM, number}, *size);
         } 
         default: (*size)--;
     }

@@ -34,7 +34,7 @@ union Expression {
 
 struct Token {
     enum TokenType token;
-    void* value;
+    char* value;
 };
 
 union Value {
