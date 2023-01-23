@@ -29,6 +29,8 @@ Expression* Exp(Token** tokens, int* size){
             }else if(*(token->value) == '-') {
                 exp->op = &(Operation){SUB, t1, Exp(tokens, size)};
                 return exp;
+            }else{
+                return t1;
             }
         }
         default: 
@@ -52,6 +54,8 @@ Expression* Term(Token** tokens, int *size){
             }else if(*(token->value) == '/') {
                 exp->op = &(Operation){DIV, f1, Exp(tokens, size)};
                 return exp;
+            }else{
+                return f1;
             }
         }
         default:
