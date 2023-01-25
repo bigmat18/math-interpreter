@@ -31,12 +31,14 @@ Token* TokenizeRec(char* string, int position, int stringLength, int* size){
         case '0': case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9': {
             char* number = NULL;
 
-            if(tokens[0].token == TKN_NUM) 
-                number = ConcatArrayChar(tokens[0].value, &character);
-            else
+            if(tokens[0].token == TKN_NUM){
+                (*size)--;
+                tokens[0].value = ConcatArrayChar(tokens[0].value, &character);
+                return tokens;
+            } else {
                 number = malloc(sizeof(char)); number[0] = character;
-
-            return ConcatArrayToken(tokens, &(Token){TKN_NUM, number}, *size);
+                return ConcatArrayToken(tokens, &(Token){TKN_NUM, number}, *size);
+            }
         } 
         default: (*size)--;
     }
