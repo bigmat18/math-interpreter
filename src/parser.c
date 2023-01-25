@@ -10,7 +10,7 @@ Token* LookHead(Token* tokens){
 
 void Consume(Token** tokens, int** size){
     (**size)--;
-    Token* result = malloc((**size)*sizeof(Token));
+    Token* result = (Token*)malloc((**size)*sizeof(Token));
     for(int i=0; i < (**size); i++) result[i] = (*tokens)[i+1];
     *tokens = result;
 }
@@ -23,13 +23,13 @@ Expression* Exp(Token** tokens, int* size){
         case TKN_OP: {
             switch (*(token->value)){
                 case '+': {
-                    Expression* exp = malloc(sizeof(Expression));
+                    Expression* exp = (Expression*)malloc(sizeof(Expression));
                     Consume(tokens, &size);
                     exp->op = &(Operation){ADD, t1, Exp(tokens, size)};
                     return exp;
                 }
                 case '-': {
-                    Expression *exp = malloc(sizeof(Expression));
+                    Expression *exp = (Expression*)malloc(sizeof(Expression));
                     Consume(tokens, &size);
                     exp->op = &(Operation){SUB, t1, Exp(tokens, size)};
                     return exp;
@@ -52,13 +52,13 @@ Expression* Term(Token** tokens, int *size){
         case TKN_OP: {
             switch(*(token->value)){
                 case '*': {
-                    Expression *exp = malloc(sizeof(Expression));
+                    Expression *exp = (Expression*)malloc(sizeof(Expression));
                     Consume(tokens, &size);
                     exp->op = &(Operation){MUL, f1, Exp(tokens, size)};
                     return exp;
                 }
                 case '/': {
-                    Expression *exp = malloc(sizeof(Expression));
+                    Expression *exp = (Expression*)malloc(sizeof(Expression));
                     Consume(tokens, &size);
                     exp->op = &(Operation){DIV, f1, Exp(tokens, size)};
                     return exp;
@@ -78,7 +78,7 @@ Expression* Factor(Token** tokens, int *size){
 
     switch (token->token){
         case TKN_NUM:{
-            Expression* exp = malloc(sizeof(Expression));
+            Expression* exp = (Expression*)malloc(sizeof(Expression));
             Consume(tokens, &size);
             exp->val = atoi(token->value);
             return exp;
@@ -107,7 +107,7 @@ Expression* Parser(char* string, int lenght){
     int size = 0;
     Token* tokens = Tokenize(string, lenght, &size);
     Expression* ast = Exp(&tokens, &size);
-    
+
     switch(LookHead(tokens)->token){
         case TKN_END: {
             return ast;
