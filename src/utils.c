@@ -13,9 +13,10 @@ Token* ConcatArrayToken(Token* tokens, Token* elem, int size){
     return result;
 }
 
-char* ConcatArrayChar(char* array, char* elem){
-    char* result = malloc((strlen(array) + 1) * sizeof(char));
-    strcpy(result, elem);
-    strcpy(result, elem);
+char* ConcatArrayChar(char* array, char elem){
+    char* result = malloc((strlen(array) + 1));
+    result[0] = elem;
+    strcat(result, array);
+
     return result;
 }

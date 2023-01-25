@@ -29,14 +29,13 @@ Token* TokenizeRec(char* string, int position, int stringLength, int* size){
         }
         
         case '0': case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9': {
-            char* number = NULL;
 
             if(tokens[0].token == TKN_NUM){
                 (*size)--;
-                tokens[0].value = ConcatArrayChar(tokens[0].value, &character);
+                tokens[0].value = ConcatArrayChar(tokens[0].value, character);
                 return tokens;
             } else {
-                number = malloc(sizeof(char)); number[0] = character;
+                char* number = malloc(sizeof(char)); number[0] = character;
                 return ConcatArrayToken(tokens, &(Token){TKN_NUM, number}, *size);
             }
         } 
@@ -62,11 +61,11 @@ Token* Tokenize(char* string, int lenght, int* size) {
                 break;
             }
             case TKN_NUM: {
-                printf("TKN_NUM ");
+                printf("TKN_NUM %s ", tokens[i].value);
                 break;
             }
             case TKN_OP: {
-                printf("TKN_OP ");
+                printf("TKN_OP %s ", tokens[i].value);
                 break;
             }
         }
