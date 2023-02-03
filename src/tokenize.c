@@ -46,29 +46,5 @@ Token* TokenizeRec(char* string, int position, int stringLength, int* size){
 
 Token* Tokenize(char* string, int lenght, int* size) {
     Token* tokens = TokenizeRec(string, 0, lenght, size);
-    for(int i=0; i<(*size); i++){
-        switch(tokens[i].token){
-            case TKN_END: {
-                printf("TKN_END ");
-                break;
-            }
-            case TKN_LPAR: {
-                printf("TKN_LPAR ");
-                break;
-            }
-            case TKN_RPAR: {
-                printf("TKN_RPAR ");
-                break;
-            }
-            case TKN_NUM: {
-                printf("TKN_NUM %s ", tokens[i].value);
-                break;
-            }
-            case TKN_OP: {
-                printf("TKN_OP %s ", tokens[i].value);
-                break;
-            }
-        }
-    }
     return tokens;
 }

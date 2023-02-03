@@ -3,7 +3,7 @@
 #ifndef TOKENIZE_H
 #define TOKENIZE_H
 
-union Expression;
+struct Expression;
 struct Operation;
 
 enum Operator {
@@ -23,11 +23,11 @@ enum TokenType {
 
 struct Operation {
     enum Operator op;
-    union Expression* leftExp;
-    union Expression* rightExp;
+    struct Expression* leftExp;
+    struct Expression* rightExp;
 };
 
-union Expression {
+struct Expression {
     int val;
     struct Operation* op;
 };
@@ -37,12 +37,7 @@ struct Token {
     char* value;
 };
 
-union Value {
-    int number;
-    char operation;
-};
-
-typedef union Expression Expression;
+typedef struct Expression Expression;
 typedef struct Operation Operation;
 typedef enum Operator Operator;
 typedef enum TokenType TokenType;

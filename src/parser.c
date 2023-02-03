@@ -73,6 +73,7 @@ Expression* Factor(Token** tokens, int *pos){
         case TKN_NUM:{
             Expression* exp = (Expression*)malloc(sizeof(Expression));
             Consume(&pos);
+            exp->op = NULL;
             exp->val = atoi(token->value);
             return exp;
         }
