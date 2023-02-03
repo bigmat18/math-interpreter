@@ -4,34 +4,27 @@
 #include <stdlib.h>
 
 
-Token* LookHead(Token* tokens){
-    return &tokens[0];
-}
+Token* LookHead(Token* tokens, int *pos){return &tokens[*pos];}
 
-void Consume(Token** tokens, int** size){
-    (**size)--;
-    Token* result = (Token*)malloc((**size)*sizeof(Token));
-    for(int i=0; i < (**size); i++) result[i] = (*tokens)[i+1];
-    *tokens = result;
-}
+void Consume(int** pos){(**pos)++;}
 
-Expression* Exp(Token** tokens, int* size){
-    Expression* t1 = Term(tokens, size);
-    Token* token = LookHead(*tokens);
+Expression* Exp(Token** tokens, int* pos){
+    Expression* t1 = Term(tokens, pos);
+    Token* token = LookHead(*tokens, pos);
 
     switch(token->token) {
         case TKN_OP: {
             switch (*(token->value)){
                 case '+': {
                     Expression* exp = (Expression*)malloc(sizeof(Expression));
-                    Consume(tokens, &size);
-                    exp->op = &(Operation){ADD, t1, Exp(tokens, size)};
+                    Consume(&pos);
+                    exp->op = &(Operation){ADD, t1, Exp(tokens, pos)};
                     return exp;
                 }
                 case '-': {
                     Expression *exp = (Expression*)malloc(sizeof(Expression));
-                    Consume(tokens, &size);
-                    exp->op = &(Operation){SUB, t1, Exp(tokens, size)};
+                    Consume(&pos);
+                    exp->op = &(Operation){SUB, t1, Exp(tokens, pos)};
                     return exp;
                 }
                 default:
@@ -44,23 +37,23 @@ Expression* Exp(Token** tokens, int* size){
     return NULL;
 }
 
-Expression* Term(Token** tokens, int *size){
-    Expression* f1 = Factor(tokens, size);
-    Token* token = LookHead(*tokens);
+Expression* Term(Token** tokens, int *pos){
+    Expression* f1 = Factor(tokens, pos);
+    Token* token = LookHead(*tokens, pos);
 
     switch (token->token){
         case TKN_OP: {
             switch(*(token->value)){
                 case '*': {
                     Expression *exp = (Expression*)malloc(sizeof(Expression));
-                    Consume(tokens, &size);
-                    exp->op = &(Operation){MUL, f1, Exp(tokens, size)};
+                    Consume(&pos);
+                    exp->op = &(Operation){MUL, f1, Exp(tokens, pos)};
                     return exp;
                 }
                 case '/': {
                     Expression *exp = (Expression*)malloc(sizeof(Expression));
-                    Consume(tokens, &size);
-                    exp->op = &(Operation){DIV, f1, Exp(tokens, size)};
+                    Consume(&pos);
+                    exp->op = &(Operation){DIV, f1, Exp(tokens, pos)};
                     return exp;
                 }
                 default:
@@ -73,24 +66,24 @@ Expression* Term(Token** tokens, int *size){
     return NULL;
 }
 
-Expression* Factor(Token** tokens, int *size){
-    Token* token = LookHead(*tokens);
+Expression* Factor(Token** tokens, int *pos){
+    Token* token = LookHead(*tokens, pos);
 
     switch (token->token){
         case TKN_NUM:{
             Expression* exp = (Expression*)malloc(sizeof(Expression));
-            Consume(tokens, &size);
+            Consume(&pos);
             exp->val = atoi(token->value);
             return exp;
         }
         case TKN_LPAR: {
-            Consume(tokens, &size);
-            Expression* exp = Exp(tokens, size);
-            token = LookHead(*tokens);
+            Consume(&pos);
+            Expression* exp = Exp(tokens, pos);
+            token = LookHead(*tokens, pos);
 
             switch(token->token){
                 case TKN_RPAR: {
-                    Consume(tokens, &size);
+                    Consume(&pos);
                     return exp;
                 }
                 default:
@@ -104,11 +97,11 @@ Expression* Factor(Token** tokens, int *size){
 }
 
 Expression* Parser(char* string, int lenght){
-    int size = 0;
+    int size = 0, pos = 0;
     Token* tokens = Tokenize(string, lenght, &size);
-    Expression* ast = Exp(&tokens, &size);
+    Expression* ast = Exp(&tokens, &pos);
 
-    switch(LookHead(tokens)->token){
+    switch(LookHead(tokens, &pos)->token){
         case TKN_END: {
             return ast;
         }

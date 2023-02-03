@@ -3,15 +3,15 @@
 #ifndef PARSER_H
 #define PARSER_H
 
-Token* LookHead(Token* tokens);
+Token* LookHead(Token* tokens, int* pos);
 
-void Consume(Token** tokens, int** size);
+void Consume(int** pos);
 
-Expression* Exp(Token** tokens, int* size);
+Expression* Exp(Token** tokens, int* pos);
 
-Expression* Term(Token** tokens, int* size);
+Expression* Term(Token** tokens, int* pos);
 
-Expression* Factor(Token** tokens, int* size);
+Expression* Factor(Token** tokens, int* pos);
 
 Expression* Parser(char* string, int lenght);
 
