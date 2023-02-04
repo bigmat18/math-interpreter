@@ -28,11 +28,16 @@ int main(int argc, char *argv[]){
         }
         index++;
     }
+
+    fclose(file);
     
     size = index - 1;
     character = realloc(character, size * sizeof(char));
 
-    printf("%d", Eval(Parser(character, size)));
-    
+    Expression *op = Parser(character, size);
+    printf("%d", Eval(op));
+
+    free(op);
+
     return 0;
 }

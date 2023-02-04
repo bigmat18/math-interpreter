@@ -112,6 +112,7 @@ Expression* Parser(char* string, int lenght){
 
     switch(LookHead(tokens, &pos)->token){
         case TKN_END: {
+            free(tokens);
             return ast;
         }
         default:
