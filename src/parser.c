@@ -8,6 +8,14 @@ Token* LookHead(Token* tokens, int *pos){return &tokens[*pos];}
 
 void Consume(int** pos){(**pos)++;}
 
+Operation* CreateOperation(Operator op, Expression* leftExp, Expression* rightExp){
+    Operation* result = malloc(sizeof(Operation));
+    result->op = op;
+    result->leftExp = leftExp;
+    result->rightExp = rightExp;
+    return result;
+}
+
 Expression* Exp(Token** tokens, int* pos){
     Expression* t1 = Term(tokens, pos);
     Token* token = LookHead(*tokens, pos);
@@ -16,15 +24,15 @@ Expression* Exp(Token** tokens, int* pos){
         case TKN_OP: {
             switch (*(token->value)){
                 case '+': {
-                    Expression* exp = (Expression*)malloc(sizeof(Expression));
+                    Expression* exp = malloc(sizeof(Expression));
                     Consume(&pos);
-                    exp->op = &(Operation){ADD, t1, Exp(tokens, pos)};
+                    exp->op = CreateOperation(ADD, t1, Exp(tokens, pos));
                     return exp;
                 }
                 case '-': {
-                    Expression *exp = (Expression*)malloc(sizeof(Expression));
+                    Expression *exp = malloc(sizeof(Expression));
                     Consume(&pos);
-                    exp->op = &(Operation){SUB, t1, Exp(tokens, pos)};
+                    exp->op = CreateOperation(SUB, t1, Exp(tokens, pos));
                     return exp;
                 }
                 default:
@@ -45,15 +53,15 @@ Expression* Term(Token** tokens, int *pos){
         case TKN_OP: {
             switch(*(token->value)){
                 case '*': {
-                    Expression *exp = (Expression*)malloc(sizeof(Expression));
+                    Expression *exp = malloc(sizeof(Expression));
                     Consume(&pos);
-                    exp->op = &(Operation){MUL, f1, Exp(tokens, pos)};
+                    exp->op = CreateOperation(MUL, f1, Exp(tokens, pos));
                     return exp;
                 }
                 case '/': {
-                    Expression *exp = (Expression*)malloc(sizeof(Expression));
+                    Expression *exp = malloc(sizeof(Expression));
                     Consume(&pos);
-                    exp->op = &(Operation){DIV, f1, Exp(tokens, pos)};
+                    exp->op = CreateOperation(DIV, f1, Exp(tokens, pos));
                     return exp;
                 }
                 default:
@@ -71,7 +79,7 @@ Expression* Factor(Token** tokens, int *pos){
 
     switch (token->token){
         case TKN_NUM:{
-            Expression* exp = (Expression*)malloc(sizeof(Expression));
+            Expression* exp = malloc(sizeof(Expression));
             Consume(&pos);
             exp->op = NULL;
             exp->val = atoi(token->value);

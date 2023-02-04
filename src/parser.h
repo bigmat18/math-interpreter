@@ -7,6 +7,8 @@ Token* LookHead(Token* tokens, int* pos);
 
 void Consume(int** pos);
 
+Operation* CreateOperation(Operator op, Expression* leftExp, Expression* rightExp);
+
 Expression* Exp(Token** tokens, int* pos);
 
 Expression* Term(Token** tokens, int* pos);
